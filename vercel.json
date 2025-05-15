@@ -15,7 +15,6 @@
         "silent": true,
         "autoJobCancelation": true
     },
-    "nodeVersion": "20.x",
     "regions": [
         "fra1"
     ]
