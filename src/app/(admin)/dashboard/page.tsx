@@ -14,17 +14,17 @@ const INTERVIEW_CATEGORY = [
   {
     id: "upcoming",
     title: "Upcoming",
-    variant: "outline"
+    variant: "outline" as const
   },
   {
     id: "completed",
     title: "Completed",
-    variant: "default"
+    variant: "default" as const
   },
   {
     id: "succeeded",
     title: "Succeeded",
-    variant: "success"
+    variant: "default" as const
   }
 ];
 
