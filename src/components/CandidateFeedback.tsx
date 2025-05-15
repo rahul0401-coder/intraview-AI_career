@@ -16,7 +16,7 @@ interface Feedback extends Doc<"comments"> {
 interface Interview extends Doc<"interviews"> {
     title: string;
     startTime: number;
-    status: string;
+    status: "scheduled" | "in_progress" | "completed" | "active" | "succeeded" | "upcoming";
 }
 
 export interface FeedbackWithInterview extends Feedback {

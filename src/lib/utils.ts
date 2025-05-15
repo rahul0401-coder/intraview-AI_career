@@ -7,8 +7,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-type Interview = Doc<"interviews">;
-type User = Doc<"users">;
+interface Interview extends Doc<"interviews"> {
+  status: "scheduled" | "in_progress" | "completed" | "active" | "succeeded" | "upcoming";
+  startTime: number;
+}
 
 export const groupInterviews = (interviews: Interview[]) => {
   if (!interviews) return {};
@@ -19,7 +21,7 @@ export const groupInterviews = (interviews: Interview[]) => {
 
     if (interview.status === "succeeded") {
       acc.succeeded = [...(acc.succeeded || []), interview];
-    } else if (interview.status === "failed") {
+    } else if (interview.status === "completed") {
       acc.failed = [...(acc.failed || []), interview];
     } else if (isBefore(date, now)) {
       acc.completed = [...(acc.completed || []), interview];
@@ -31,7 +33,7 @@ export const groupInterviews = (interviews: Interview[]) => {
   }, {});
 };
 
-export const getCandidateInfo = (users: User[], candidateId: string) => {
+export const getCandidateInfo = (users: Doc<"users">[], candidateId: string) => {
   const candidate = users?.find((user) => user.clerkId === candidateId);
   return {
     name: candidate?.name || "Unknown Candidate",
@@ -44,7 +46,7 @@ export const getCandidateInfo = (users: User[], candidateId: string) => {
   };
 };
 
-export const getInterviewerInfo = (users: User[], interviewerId: string) => {
+export const getInterviewerInfo = (users: Doc<"users">[], interviewerId: string) => {
   const interviewer = users?.find((user) => user.clerkId === interviewerId);
   return {
     name: interviewer?.name || "Unknown Interviewer",
@@ -83,7 +85,6 @@ export const getMeetingStatus = (interview: Interview) => {
 
   if (
     interview.status === "completed" ||
-    interview.status === "failed" ||
     interview.status === "succeeded"
   )
     return "completed";

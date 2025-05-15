@@ -70,10 +70,15 @@ export default function AdminDashboard() {
     const filteredInterviews = activities.filter(activity => {
         if (activity.type !== "interview") return false;
         if (activeFilter === "all") return true;
-        if (activeFilter === "scheduled" && activity.data.status === "scheduled") return true;
-        if (activeFilter === "completed" && activity.data.status === "completed") return true;
+
+        // Type guard to ensure we're dealing with an interview
+        const interview = activity.data as { status?: string };
+        if (!interview.status) return false;
+
+        if (activeFilter === "scheduled" && interview.status === "scheduled") return true;
+        if (activeFilter === "completed" && interview.status === "completed") return true;
         if (activeFilter === "in_progress" &&
-            (activity.data.status === "in_progress" || activity.data.status === "active")) return true;
+            (interview.status === "in_progress" || interview.status === "active")) return true;
         return false;
     });
 
@@ -218,18 +223,21 @@ export default function AdminDashboard() {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {filteredInterviews.map((activity, index) => (
-                                            <TableRow key={index}>
-                                                <TableCell>{activity.data.title}</TableCell>
-                                                <TableCell>{activity.data.status}</TableCell>
-                                                <TableCell>
-                                                    {format(new Date(activity.timestamp), "MMM d, yyyy")}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {format(new Date(activity.timestamp), "h:mm a")}
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
+                                        {filteredInterviews.map((activity, index) => {
+                                            const interview = activity.data as { status?: string, title?: string };
+                                            return (
+                                                <TableRow key={index}>
+                                                    <TableCell>{interview.title || 'Untitled'}</TableCell>
+                                                    <TableCell>{interview.status || 'Unknown'}</TableCell>
+                                                    <TableCell>
+                                                        {format(new Date(activity.timestamp), "MMM d, yyyy")}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {format(new Date(activity.timestamp), "h:mm a")}
+                                                    </TableCell>
+                                                </TableRow>
+                                            );
+                                        })}
                                     </TableBody>
                                 </Table>
                             )}
@@ -256,7 +264,7 @@ export default function AdminDashboard() {
                                         <div className="space-y-1">
                                             <p className="text-sm font-medium leading-none">
                                                 {activity.type === "interview"
-                                                    ? `New interview scheduled: ${activity.data.title}`
+                                                    ? `New interview scheduled: ${(activity.data as { title?: string }).title || 'Untitled'}`
                                                     : `New feedback submitted for interview`}
                                             </p>
                                             <p className="text-sm text-muted-foreground">
