@@ -4,17 +4,36 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { Doc, Id } from "../../../../convex/_generated/dataModel";
 import toast from "react-hot-toast";
-import LoaderUI from "@/components/LoaderUI";
-import { getCandidateInfo, groupInterviews } from "@/lib/utils";
+import LoaderUI from "../../../components/LoaderUI";
+import { getCandidateInfo, groupInterviews } from "../../../lib/utils";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { INTERVIEW_CATEGORY } from "@/constants";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "../../../components/ui/button";
+
+// Define interview categories directly in the file for now
+const INTERVIEW_CATEGORY = [
+  {
+    id: "upcoming",
+    title: "Upcoming",
+    variant: "outline"
+  },
+  {
+    id: "completed",
+    title: "Completed",
+    variant: "default"
+  },
+  {
+    id: "succeeded",
+    title: "Succeeded",
+    variant: "success"
+  }
+];
+
+import { Badge } from "../../../components/ui/badge";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../../../components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "../../../components/ui/avatar";
 import { CalendarIcon, CheckCircle2Icon, ClockIcon, XCircleIcon } from "lucide-react";
 import { format } from "date-fns";
-import CenteredCommentDialog from "@/components/CenteredCommentDialog";
+import CenteredCommentDialog from "../../../components/CenteredCommentDialog";
 import { useAuth } from "@clerk/nextjs";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
