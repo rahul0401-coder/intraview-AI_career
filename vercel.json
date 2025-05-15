@@ -1,15 +1,4 @@
 {
-    "buildCommand": "npm install && npm run build",
-    "devCommand": "npm run dev",
-    "installCommand": "npm install",
     "framework": "nextjs",
-    "outputDirectory": ".next",
-    "crons": [],
-    "github": {
-        "silent": true,
-        "autoJobCancelation": true
-    },
-    "regions": [
-        "fra1"
-    ]
+    "crons": []
 }
