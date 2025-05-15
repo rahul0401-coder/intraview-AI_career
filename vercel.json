@@ -1,0 +1,22 @@
+{
+    "buildCommand": "npm install && npm run build",
+    "devCommand": "npm run dev",
+    "installCommand": "npm install",
+    "framework": "nextjs",
+    "outputDirectory": ".next",
+    "functions": {
+        "api/*.js": {
+            "memory": 1024,
+            "maxDuration": 10
+        }
+    },
+    "crons": [],
+    "github": {
+        "silent": true,
+        "autoJobCancelation": true
+    },
+    "nodeVersion": "20.x",
+    "regions": [
+        "fra1"
+    ]
+}
